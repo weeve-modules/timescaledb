@@ -33,7 +33,7 @@ The following module configurations can be provided in a data service designer s
 | Host URL         | HOST_URL              | string | TimescaleDB service host URL.                                                                                              |
 | Port             | PORT                  | string | TimescaleDB service port.                                                                                                  |
 | Database Name    | DATABASE_NAME         | string | TimescaleDB service database name.                                                                                         |
-| SSL Mode         | SSL_MODE              | string | Whether SSL mode for connection is required.                                                                               |
+| SSL Mode         | SSL_MODE              | bool | Whether SSL mode for connection is required.                                                                               |
 | Table Name       | TABLE_NAME            | string | Table to write data to.                                                                                                    |
 | Database Columns | COLUMNS               | string | List of comma (,) separated database columns headers to write to.                                                          |
 | Data Labels      | LABELS                | string | List of comma (,) separated labels in passed data. Order of labels must match the order of provided corresponding columns. |
