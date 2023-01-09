@@ -6,7 +6,7 @@ PARAMS = {
     "HOST_URL": getenv("HOST_URL", ""),
     "PORT": getenv("PORT", ""),
     "DATABASE_NAME": getenv("DATABASE_NAME", ""),
-    "SSL_MODE": bool(getenv("SSL_MODE", "False")),
+    "SSL_MODE": bool(getenv("SSL_MODE", "True")),
     "TABLE_NAME": getenv("TABLE_NAME", ""),
     "COLUMNS": getenv("COLUMNS", ""),
     "LABELS": getenv("LABELS", "")
