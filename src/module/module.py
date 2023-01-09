@@ -48,12 +48,6 @@ def module_main(received_data: any) -> str:
         return f"Exception in the module business logic: {e}"
 
 def insert_data(data):
-    # build columns artefact
-    columns = ""
-    for c in PARAMS['COLUMNS']:
-        columns += f"{c},"
-    columns = "(" + columns[:-1] + ")"
-
     # build values
     values = ""
     for label in PARAMS['LABELS']:
@@ -64,7 +58,7 @@ def insert_data(data):
     values = "(" + values[:-1] + ")"
 
     # build SQL Query
-    SQL = f"INSERT INTO {PARAMS['TABLE_NAME']} {columns} VALUES {values};"
+    SQL = f"INSERT INTO {PARAMS['TABLE_NAME']} {PARAMS['COLUMNS']} VALUES {values};"
 
     try:
         log.info("Writing data...")

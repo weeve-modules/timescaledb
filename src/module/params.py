@@ -14,7 +14,11 @@ PARAMS = {
 
 # parse columns and labels
 if PARAMS['COLUMNS']:
-    PARAMS['COLUMNS'] = [header.strip() for header in PARAMS['COLUMNS'].split(',')]
+    # build columns artefact
+    columns = ""
+    for c in [header.strip() for header in PARAMS['COLUMNS'].split(',')]:
+        columns += f"{c},"
+    PARAMS['COLUMNS'] = "(" + columns[:-1] + ")"
 else:
     PARAMS['COLUMNS'] = None
 
