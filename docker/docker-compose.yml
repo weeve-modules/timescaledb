@@ -16,7 +16,7 @@ services:
       DATABASE_NAME: "tsdb"
       SSL_MODE: "True"
       TABLE_NAME: "my_table"
-      COLUMNS: "temperature, location"
-      LABELS: "filterTemp, sensorLocation"
+      COLUMNS: "time, temperature, location"
+      LABELS: "time, filterTemp, sensorLocation"
     ports:
       - 80:80
