@@ -5,7 +5,8 @@ Data outputting should happen here.
 Edit this file to implement your module.
 """
 
-import psycopg2
+import psycopg2 as pg
+from psycopg2 import sql
 from logging import getLogger
 from .connect import createTimescaleConnection
 from .params import PARAMS
@@ -14,6 +15,14 @@ log = getLogger("module")
 
 # connect to TimescaleDB
 CURSOR, CONN = createTimescaleConnection()
+
+query = sql.SQL("INSERT INTO {table} ({columns}) VALUES ({values});").format(
+    table=sql.Identifier(PARAMS['TABLE_NAME']),
+    columns=sql.SQL(", ").join(
+        [sql.Identifier(column) for column in PARAMS['COLUMNS']]
+    ),
+    values=sql.SQL(", ").join(sql.Placeholder() * len(PARAMS['LABELS'])),
+)
 
 
 def module_main(received_data: any) -> str:
@@ -49,21 +58,14 @@ def module_main(received_data: any) -> str:
 
 def insert_data(data):
     # build values
-    values = ""
+    values = []
     for label in PARAMS['LABELS']:
-        if type(data[label]) == str:
-            values += f"\'{data[label]}\',"
-        else:
-            values += f"{data[label]},"
-    values = "(" + values[:-1] + ")"
-
-    # build SQL Query
-    SQL = f"INSERT INTO {PARAMS['TABLE_NAME']} {PARAMS['COLUMNS']} VALUES {values};"
+        values.append(data[label])
 
     try:
         log.info("Writing data...")
-        CURSOR.execute(SQL)
-    except (Exception, psycopg2.Error) as error:
+        CURSOR.execute(query, values)
+    except (Exception, pg.Error) as error:
         return error.pgerror
 
     CONN.commit()
