@@ -5,16 +5,16 @@ Data outputting should happen here.
 Edit this file to implement your module.
 """
 
-import psycopg2
+import psycopg2 as pg
 from logging import getLogger
 from .connect import createTimescaleConnection
 from .params import PARAMS
+from .query import QUERY
 
 log = getLogger("module")
 
 # connect to TimescaleDB
 CURSOR, CONN = createTimescaleConnection()
-
 
 def module_main(received_data: any) -> str:
     """
@@ -49,22 +49,16 @@ def module_main(received_data: any) -> str:
 
 def insert_data(data):
     # build values
-    values = ""
-    for label in PARAMS['LABELS']:
-        if type(data[label]) == str:
-            values += f"\'{data[label]}\',"
-        else:
-            values += f"{data[label]},"
-    values = "(" + values[:-1] + ")"
+    values = tuple(data[label] for label in PARAMS['LABELS'])
 
-    # build SQL Query
-    SQL = f"INSERT INTO {PARAMS['TABLE_NAME']} {PARAMS['COLUMNS']} VALUES {values};"
+    log.debug(f"Query: {QUERY.as_string(CURSOR)}")
+    log.debug(f"Values: {values}")
 
     try:
         log.info("Writing data...")
-        CURSOR.execute(SQL)
-    except (Exception, psycopg2.Error) as error:
-        return error.pgerror
+        CURSOR.execute(QUERY, values)
+    except (Exception, pg.Error) as error:
+        return f"Exception when executing the query: {error}"
 
     CONN.commit()
 

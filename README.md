@@ -19,6 +19,7 @@
 ## Description
 
 Insert your data into your TimescaleDB table.
+Check out [this table](https://www.psycopg.org/docs/usage.html#adaptation-of-python-values-to-sql-types) to learn which python types correspond to SQL types.
 
 ## Environment Variables
 
