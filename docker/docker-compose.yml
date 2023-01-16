@@ -1,13 +1,22 @@
 version: "3.0"
 services:
-  boilerplate:
+  timescaledb:
     build:
       context: ../
       dockerfile: docker/Dockerfile
     environment:
-      MODULE_NAME: "boilerplate"
+      MODULE_NAME: "timescaledb"
       MODULE_TYPE: "Output"
       INGRESS_HOST: "0.0.0.0"
       INGRESS_PORT: "80"
+      USERNAME: "tsdbadmin"
+      PASSWORD: "password"
+      HOST_URL: "abcdefgh.a1bcdefgh7.tsdb.cloud.timescale.com"
+      PORT: "35000"
+      DATABASE_NAME: "tsdb"
+      SSL_MODE: "True"
+      TABLE_NAME: "my_table"
+      COLUMNS: "time, temperature, location"
+      LABELS: "time, filterTemp, sensorLocation"
     ports:
       - 80:80

@@ -26,6 +26,11 @@ else
     echo "Unrecognized MODULE_TYPE = $MODULE_TYPE, choose from Input, Processing, Output"
     exit 1
 fi
+
+# Validate other environment variables
+: "${COLUMNS:?Need to provide database Columns in module configuration pane in weeve IoT Platform.}"
+: "${LABELS:?Need to provide data Labels in module configuration pane in weeve IoT Platform.}"
+
 echo "[ENTRYPOINT] Environment validated."
 
 # CALL THE MAIN SCRIPT
