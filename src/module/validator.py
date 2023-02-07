@@ -9,12 +9,14 @@ from .params import PARAMS
 
 log = getLogger("validator")
 
+
 def validate_labels(data):
-    for label in PARAMS['LABELS']:
-        if not label in data.keys():
-            return f'Cannot find required label [{label}] in data labels {list(data.keys())}'
+    for label in PARAMS["LABELS"]:
+        if label not in data.keys():
+            return f"Cannot find required label [{label}] in data labels {list(data.keys())}"
 
     return None
+
 
 def data_validation(data: any) -> str:
     """

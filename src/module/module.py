@@ -16,6 +16,7 @@ log = getLogger("module")
 # connect to TimescaleDB
 CURSOR, CONN = createTimescaleConnection()
 
+
 def module_main(received_data: any) -> str:
     """
     Send received data to the next module by implementing module's main logic.
@@ -33,7 +34,9 @@ def module_main(received_data: any) -> str:
 
     try:
         if not CURSOR:
-            raise Exception("Cannot connect to TimescaleDB, check provided API details and authentication credentials.")
+            raise Exception(
+                "Cannot connect to TimescaleDB, check provided API details and authentication credentials."
+            )
 
         if type(received_data) == dict:
             return insert_data(received_data)
@@ -47,9 +50,10 @@ def module_main(received_data: any) -> str:
     except Exception as e:
         return f"Exception in the module business logic: {e}"
 
+
 def insert_data(data):
     # build values
-    values = tuple(data[label] for label in PARAMS['LABELS'])
+    values = tuple(data[label] for label in PARAMS["LABELS"])
 
     log.debug(f"Query: {QUERY.as_string(CURSOR)}")
     log.debug(f"Values: {values}")
